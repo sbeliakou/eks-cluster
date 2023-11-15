@@ -24,6 +24,21 @@ Key Features and Components of the Cluster:
 6. **Configurable External Access with IAM (aws-auth):**
    - A key feature is the ability to configure external access to the cluster using IAM (aws-auth). This enables fine-grained control over access permissions, making the cluster adaptable to varying user roles and security protocols.
 
+### TODO
+
+- Karpenter
+- Cloud Autoscaler
+- ArgoCD
+- Github Actions Runners
+- Gitlab Runners
+- Prometheus, Grafana
+- ELK/EFK
+- Hashicorp Vault
+- External DNS
+- Traefik
+- Istio
+- AWS Loadbalancer Controller + WAF + CloudFront
+
 ## Simplified Diagram
 
 ![](/docs/images/infra.png)
