@@ -49,13 +49,16 @@ output "eks_cluster_name" {
 }
 
 output "aws_ecr_docker_registry" {
+  description = "ECR Registry created by the stack"
   value = join("\n", [for item in var.aws_ecr_docker_registry: item])
 }
 
 output "karpenter_irsa_role_arn" {
+  description = "Karpenter IRSA Role ARN"
   value = var.karpenter_enabled ? module.karpenter[0].irsa_arn : null
 }
 
 output "karpenter_role_name" {
+  description = "Karpenter Role Name"
   value = var.karpenter_enabled ? basename(module.karpenter[0].role_arn) : null
 }

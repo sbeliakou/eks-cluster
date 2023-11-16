@@ -8,6 +8,7 @@ variable "vpc_cidr" {
 }
 
 variable "single_nat_gateway" {
+  description = "To use the single NAT Gateway or 1 per AZ"
   default = true
 }
 
@@ -68,16 +69,19 @@ variable "aws_auth_accounts" {
 }
 
 variable "karpenter_enabled" {
+  description = "To install Karpenter or not"
   type = bool
   default = false
 }
 
 variable "karpenter_nodepool_cpu_limits" {
+  description = "Karpenter Node Group max CPU Capacity. Limit prevents Karpenter from creating new instances once the limit is exceeded."
   type = number
   default = 1000
 }
 
 variable "karpenter_nodepool_expireafter_h" {
+  description = "The amount of time a Node can live on the cluster before being removed"
   type = number
   default = 1
 }
