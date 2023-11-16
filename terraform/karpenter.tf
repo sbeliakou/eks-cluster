@@ -47,17 +47,37 @@ resource "helm_release" "karpenter" {
   }
 }
 
-# resource "helm_release" "karpenter_nodepool" {
-#   name       = "karpenter-nodepool"
-#   chart      = "karpenter-nodepool"
-#   repository = "./helm-charts/"
+resource "helm_release" "karpenter_nodes" {
+  name       = "karpenter-nodes"
+  chart      = "karpenter-nodes"
+  repository = "./helm-charts/"
 
-#   values = [
-#     <<-EOT
-#     eksNodeGroupIAMRole: ${module.karpenter[0].aws_iam_instance_profile.this[0]}
-#     discoveryTag: ${local.eks_cluster_name}
-#     cpuLimits: 100
-#     expireAfterH: 2
-#     EOT
-#   ]
-# }
+  set {
+    name = "eksNodeGroupIAMRole"
+    value = basename(module.karpenter[0].role_arn)
+  }
+
+  set {
+    name = "discoveryTag"
+    value = local.eks_cluster_name
+  }
+
+  set {
+    name = "cpuLimits"
+    value = "100"
+  }
+
+  set {
+    name = "expireAfterH"
+    value = "2"
+  }
+
+  # values = [
+  #   <<-EOT
+  #   eksNodeGroupIAMRole: ${basename(module.karpenter[0].role_arn)}
+  #   discoveryTag: ${local.eks_cluster_name}
+  #   cpuLimits: 100
+  #   expireAfterH: 2
+  #   EOT
+  # ]
+}

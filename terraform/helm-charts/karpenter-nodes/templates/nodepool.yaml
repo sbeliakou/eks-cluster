@@ -1,0 +1,24 @@
+apiVersion: karpenter.sh/v1beta1
+kind: NodePool
+metadata:
+  name: {{ .Values.nodePoolName }}
+spec:
+  template:
+    spec:
+      requirements:
+        {{- range .Values.nodepool_requirements }}
+        - name: "{{ .key }}"
+          operator: {{ .operator }}
+          values: 
+          {{- range .values }}
+            - {{ . | quote }}
+          {{- end }}
+        {{- end }}
+      nodeClassRef:
+        name: {{ .Values.nodeClassName }}
+  limits:
+    cpu: {{ .Values.cpuLimits }}
+    memory: {{ .Values.memoryLimitsGi }}Gi
+  disruption:
+    consolidationPolicy: WhenUnderutilized
+    expireAfter: {{ .Values.expireAfterH }}h

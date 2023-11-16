@@ -56,10 +56,6 @@ output "karpenter_irsa_role_arn" {
   value = var.karpenter_enabled ? module.karpenter[0].irsa_arn : null
 }
 
-# output "cluster_role_name" {
-#   value = module.karpenter.cluster_iam_role_name  
-# }
-
-# output "eks_managed_node_groups" {
-#   value = module.karpenter[0].eks_managed_node_groups
-# }
+output "karpenter_role_name" {
+  value = var.karpenter_enabled ? basename(module.karpenter[0].role_arn) : null
+}
