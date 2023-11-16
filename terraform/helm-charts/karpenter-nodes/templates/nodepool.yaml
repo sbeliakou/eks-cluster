@@ -5,6 +5,8 @@ metadata:
 spec:
   template:
     spec:
+      nodeClassRef:
+        name: {{ .Values.nodeClassName }}
       requirements:
         {{- range .Values.nodepool_requirements }}
         - name: "{{ .key }}"
@@ -14,8 +16,63 @@ spec:
             - {{ . | quote }}
           {{- end }}
         {{- end }}
-      nodeClassRef:
-        name: {{ .Values.nodeClassName }}
+      {{- if .Values.kubelet }}
+      kubelet:
+        {{- with .Values.kubelet.clusterDNS }}
+        clusterDNS: {{ . | toJson }}
+        {{- end }}
+        {{- with .Values.kubelet.containerRuntime }}
+        containerRuntime: {{ . }}
+        {{- end }}
+        {{- with .Values.kubelet.systemReserved }}
+        systemReserved:
+          cpu: {{ .cpu }}
+          memory: {{ .memory }}
+          ephemeral-storage: {{ .ephemeralStorage }}
+        {{- end }}
+        {{- with .Values.kubelet.kubeReserved }}
+        kubeReserved:
+          cpu: {{ .cpu }}
+          memory: {{ .memory }}
+          ephemeral-storage: {{ .ephemeralStorage }}
+        {{- end }}
+        {{- with .Values.kubelet.evictionHard }}
+        evictionHard:
+          memory.available: {{ .memoryAvailable }}
+          nodefs.available: {{ .nodefsAvailable }}
+          nodefs.inodesFree: {{ .nodefsInodesFree }}
+        {{- end }}
+        {{- with .Values.kubelet.evictionSoft }}
+        evictionSoft:
+          memory.available: {{ .memoryAvailable }}
+          nodefs.available: {{ .nodefsAvailable }}
+          nodefs.inodesFree: {{ .nodefsInodesFree }}
+        {{- end }}
+        {{- with .Values.kubelet.evictionSoftGracePeriod }}
+        evictionSoftGracePeriod:
+          memory.available: {{ .memoryAvailable }}
+          nodefs.available: {{ .nodefsAvailable }}
+          nodefs.inodesFree: {{ .nodefsInodesFree }}
+        {{- end }}
+        {{- with .Values.kubelet.evictionMaxPodGracePeriod }}
+        evictionMaxPodGracePeriod: {{ . }}
+        {{- end }}
+        {{- with .Values.kubelet.imageGCHighThresholdPercent }}
+        imageGCHighThresholdPercent: {{ . }}
+        {{- end }}
+        {{- with .Values.kubelet.imageGCLowThresholdPercent }}
+        imageGCLowThresholdPercent: {{ . }}
+        {{- end }}
+        {{- with .Values.kubelet.cpuCFSQuota }}
+        cpuCFSQuota: {{ . }}
+        {{- end }}
+        {{- with .Values.kubelet.podsPerCore }}
+        podsPerCore: {{ . }}
+        {{- end }}
+        {{- with .Values.kubelet.maxPods }}
+        maxPods: {{ . }}
+        {{- end }}
+      {{- end }}
   limits:
     cpu: {{ .Values.limits.cpu }}
     memory: {{ .Values.limits.memory }}

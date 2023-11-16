@@ -34,18 +34,54 @@ disruption:
 # Operators { In, NotIn, Exists, DoesNotExist, Gt, and Lt } are supported.
 # https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#operators
 nodepool_requirements:
-- key: kubernetes.io/arch
+- key: "kubernetes.io/arch"
   operator: In
   values: ["amd64"]
-- key: kubernetes.io/os
+- key: "kubernetes.io/os"
   operator: In
   values: ["linux"]
-- key: karpenter.sh/capacity-type
+- key: "karpenter.sh/capacity-type"
   operator: In
   values: ["spot"]
-- key: karpenter.k8s.aws/instance-category
+- key: "karpenter.k8s.aws/instance-category"
   operator: In
-  values: ["c", "m"]
-- key: karpenter.k8s.aws/instance-generation
+  values: ["c", "m", "r"]
+- key: "karpenter.k8s.aws/instance-cpu"
+  operator: In
+  values: ["4", "8", "16", "32"]
+- key: "karpenter.k8s.aws/instance-generation"
   operator: Gt
   values: ["2"]
+
+# Karpenter provides the ability to specify a few additional Kubelet args.
+# These are all optional and provide support for additional customization and use cases.
+kubelet: {}
+# kubelet:
+#   clusterDNS: ["10.0.1.100", "10.0.1.100"]
+#   containerRuntime: containerd
+#   systemReserved:
+#     cpu: 100m
+#     memory: 100Mi
+#     ephemeralStorage: 1Gi
+#   kubeReserved:
+#     cpu: 200m
+#     memory: 100Mi
+#     ephemeralStorage: 3Gi
+#   evictionHard:
+#     memoryAvailable: 5%
+#     nodefsAvailable: 10%
+#     nodefsInodesFree: 10%
+#   evictionSoft:
+#     memoryAvailable: 500Mi
+#     nodefsAvailable: 15%
+#     nodefsInodesFree: 15%
+#   evictionSoftGracePeriod:
+#     memoryAvailable: 1m
+#     nodefsAvailable: 1m30s
+#     nodefsInodesFree: 2m
+#   evictionMaxPodGracePeriod: 60
+#   imageGCHighThresholdPercent: 85
+#   imageGCLowThresholdPercent: 80
+#   cpuCFSQuota: true
+#   podsPerCore: 2
+#   maxPods: 20
