@@ -3,11 +3,26 @@ kind: EC2NodeClass
 metadata:
   name: {{ .Values.nodeClassName }}
 spec:
+  # required, resolves a default ami and userdata
   amiFamily: AL2 
+
+  # required, IAM role to use for the node identity
   role: "{{ .Values.eksNodeGroupIAMRole }}"
+
+  # required, discovers subnets to attach to instances
   subnetSelectorTerms:
     - tags:
-        karpenter.sh/discovery: "{{ .Values.discoveryTag }}"
+        karpenter.sh/discovery: "{{ .Values.clusterName }}"
+  
+  # required, discovers security groups to attach to instances
   securityGroupSelectorTerms:
     - tags:
-        karpenter.sh/discovery: "{{ .Values.discoveryTag }}"
+        karpenter.sh/discovery: "{{ .Values.clusterName }}"
+
+  {{- if .Values.userData }}
+  userData: |
+    {{ .Values.userData }}
+  {{- end }}
+
+  # optional, configures detailed monitoring for the instance
+  detailedMonitoring: {{ .Values.detailedMonitoring }}

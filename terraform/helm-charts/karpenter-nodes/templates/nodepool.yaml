@@ -6,6 +6,8 @@ spec:
   template:
     spec:
       nodeClassRef:
+        apiVersion: karpenter.k8s.aws/v1beta1
+        kind: EC2NodeClass
         name: {{ .Values.nodeClassName }}
       requirements:
         {{- range .Values.nodepool_requirements }}

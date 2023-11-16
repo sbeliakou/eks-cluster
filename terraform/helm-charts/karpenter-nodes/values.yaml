@@ -2,7 +2,10 @@ nodePoolName: default
 nodeClassName: default
 
 eksNodeGroupIAMRole: ""
-discoveryTag: ""
+clusterName: ""
+
+userData: ""
+detailedMonitoring: false
 
 # Resource limits constrain the total size of the cluster.
 # Limits prevent Karpenter from creating new instances once the limit is exceeded.
