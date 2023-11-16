@@ -58,7 +58,7 @@ resource "helm_release" "karpenter_nodes" {
   }
 
   set {
-    name = "discoveryTag"
+    name = "clusterName"
     value = local.eks_cluster_name
   }
 
