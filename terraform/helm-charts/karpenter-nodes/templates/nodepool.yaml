@@ -17,8 +17,9 @@ spec:
       nodeClassRef:
         name: {{ .Values.nodeClassName }}
   limits:
-    cpu: {{ .Values.cpuLimits }}
-    memory: {{ .Values.memoryLimitsGi }}Gi
+    cpu: {{ .Values.limits.cpu }}
+    memory: {{ .Values.limits.memory }}
   disruption:
-    consolidationPolicy: WhenUnderutilized
-    expireAfter: {{ .Values.expireAfterH }}h
+    consolidationPolicy: {{ .Values.disruption.consolidationPolicy }}
+    consolidationPolicy: {{ .Values.disruption.consolidateAfter }}
+    expireAfter: {{ .Values.disruption.expireAfter }}

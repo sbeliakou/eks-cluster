@@ -63,21 +63,17 @@ resource "helm_release" "karpenter_nodes" {
   }
 
   set {
-    name = "cpuLimits"
+    name = "limits.cpu"
     value = "100"
   }
 
   set {
-    name = "expireAfterH"
-    value = "2"
+    name = "limits.memory"
+    value = "20Gi"
   }
 
-  # values = [
-  #   <<-EOT
-  #   eksNodeGroupIAMRole: ${basename(module.karpenter[0].role_arn)}
-  #   discoveryTag: ${local.eks_cluster_name}
-  #   cpuLimits: 100
-  #   expireAfterH: 2
-  #   EOT
-  # ]
+  set {
+    name = "disruption.expireAfter"
+    value = "4h"
+  }
 }
