@@ -43,3 +43,4 @@ account.id
 infracost-*.json
 
 .ignore-*
+terragrunt.hcl
